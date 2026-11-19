@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: { unoptimized: true },
   // The order route reads product pictures from disk to send them to PickSpot,
   // so the pictures have to be deployed together with that route.
   outputFileTracingIncludes: {
