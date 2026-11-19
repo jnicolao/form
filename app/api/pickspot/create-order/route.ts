@@ -8,12 +8,12 @@ import {
 import { normalizeKePhone } from '@/lib/phone';
 import {
   createCheckoutOrder,
-  isPickspotConfigured,
+  missingPickspotSettings,
   PickspotApiError,
 } from '@/lib/pickspot-server';
 import { claimLinkOf, toPublicOrder } from '@/lib/public-order';
 import { getSiteUrl } from '@/lib/site-url';
-import { isSupabaseConfigured } from '@/lib/supabase-server';
+import { missingSupabaseSettings } from '@/lib/supabase-server';
 import type { PickspotCreateOrderRequest, PickspotOrder } from '@/lib/types';
 
 // How often one phone number may be sent an order request. Each request is a
@@ -91,8 +91,15 @@ export async function POST(req: NextRequest) {
       'Something is wrong with this order. Refresh the page and try again.',
     );
 
-  if (!isPickspotConfigured() || !isSupabaseConfigured())
+  // The shopper only hears that orders are closed; the server log names the
+  // settings to add (names only, never values).
+  const missing = [...missingPickspotSettings(), ...missingSupabaseSettings()];
+  if (missing.length > 0) {
+    console.error(
+      `[create-order] refused: missing setting(s) ${missing.join(', ')}. Add them to .env (or the host's environment variables).`,
+    );
     return fail(503, 'NOT_CONFIGURED', CLOSED);
+  }
 
   try {
     const recent = await recentOrderTimesForPhone(phone, reference, 3600);

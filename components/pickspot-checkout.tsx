@@ -197,8 +197,8 @@ export function PickspotCheckout() {
               <p className="mt-2 text-sm text-muted-foreground">{apiError}</p>
               {errorCode === 'NOT_CONFIGURED' && (
                 <p className="mt-4 rounded-lg bg-secondary/50 p-3 text-xs text-muted-foreground">
-                  The merchant hasn&apos;t connected their PickSpot account yet.
-                  This is a configuration issue, not a problem with your order.
+                  The shop&apos;s checkout isn&apos;t fully set up yet. This is
+                  a configuration issue, not a problem with your order.
                 </p>
               )}
               <Button

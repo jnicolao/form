@@ -44,6 +44,13 @@ export function isPickspotConfigured(): boolean {
   return getPickspotConfig() !== null;
 }
 
+// The names of the settings that are still missing; empty when all are there.
+export function missingPickspotSettings(): string[] {
+  return ['PICKSPOT_API_KEY', 'PICKSPOT_BASE_URL'].filter(
+    (name) => !process.env[name],
+  );
+}
+
 async function request(
   method: 'GET' | 'POST',
   path: string,
