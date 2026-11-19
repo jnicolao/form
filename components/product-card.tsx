@@ -41,7 +41,7 @@ export function ProductCard({
         </Link>
         <p className="mt-1 text-sm text-muted-foreground">{product.subtitle}</p>
         <p className="mt-1 text-xs text-muted-foreground/80">{product.size}</p>
-        <div className="mt-auto flex items-center justify-between pt-4">
+        <div className="mt-auto flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
           <span className="font-display text-base font-semibold">
             {formatKES(product.priceKES)}
           </span>
@@ -49,7 +49,7 @@ export function ProductCard({
             productId={product.id}
             size="sm"
             label="Add"
-            className="h-9 px-4"
+            className="h-9 w-full px-4 sm:w-auto"
           />
         </div>
       </div>

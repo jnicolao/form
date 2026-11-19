@@ -10,19 +10,22 @@ const routineSteps = [
   {
     num: '01',
     title: 'Cleanse',
-    description: 'Start fresh with a daily cleanser.',
+    description: 'Wash once. Start the day clean.',
+    link: 'Daily cleanser',
     href: '/shop/daily-face-cleanser',
   },
   {
     num: '02',
     title: 'Treat',
-    description: "Target your skin's needs with a focused serum.",
+    description: 'One serum, for the thing you want to change.',
+    link: 'Oil control serum',
     href: '/shop/oil-control-serum',
   },
   {
     num: '03',
     title: 'Protect',
-    description: 'Hydrate and protect your skin throughout the day.',
+    description: 'Sunscreen. Every morning, without thinking.',
+    link: 'SPF 50',
     href: '/shop/daily-spf-50-sunscreen',
   },
 ];
@@ -30,14 +33,13 @@ const routineSteps = [
 export default function HomePage() {
   return (
     <div className="flex flex-col">
-      {/* Hero */}
       <section className="relative w-full overflow-hidden bg-secondary/30">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-24">
-          <div className="order-2 lg:order-1">
-            <h1 className="font-display text-4xl font-bold leading-[1.1] tracking-tight text-balance sm:text-5xl sm:leading-none lg:text-6xl">
-              Look after yourself. No complicated routine.
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 py-12 sm:px-6 lg:grid-cols-2">
+          <div className="text-center lg:text-left">
+            <h1 className="font-display text-4xl font-bold leading-[1.3] tracking-tight text-balance sm:text-5xl sm:leading-[1.2] lg:text-6xl">
+              Look after yourself. <br /> No complicated routine.
             </h1>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg sm:leading-7">
+            <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground sm:text-xl sm:leading-7">
               Skincare that works hard, so you don&rsquo;t have to.
               Straightforward essentials for your everyday routine.
             </p>
@@ -60,38 +62,65 @@ export default function HomePage() {
             </div>
           </div>
           <div className="order-1 lg:order-2">
-            <div className="relative aspect-square w-full overflow-hidden rounded-2xl">
-              <ProductImage
-                src="/assets/images/collection-hero.webp"
-                alt="FORM. men's skincare collection"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-                className="object-cover"
+            <div className="relative mx-auto h-[30rem] w-full max-w-md sm:h-[34rem] sm:max-w-lg lg:h-[38rem] lg:max-w-none">
+              <div
+                aria-hidden
+                className="absolute right-0 top-[10%] h-[66%] w-[70%] border border-foreground/30"
               />
+              <div className="absolute right-[7%] top-0 z-10 h-[66%] w-[70%] overflow-hidden bg-secondary">
+                <ProductImage
+                  src="/assets/images/collection-hero.webp"
+                  alt="FORM. men's skincare collection"
+                  fill
+                  sizes="(max-width: 1024px) 80vw, 40vw"
+                  priority
+                  className="object-cover object-[center_30%]"
+                />
+              </div>
+              <div className="absolute bottom-0 left-0 z-20 w-[48%] -rotate-6 bg-background p-1.5 shadow-xl">
+                <div className="relative aspect-4/5 overflow-hidden bg-secondary">
+                  <ProductImage
+                    src="/assets/images/oil-control-serum.webp"
+                    alt="Oil control serum"
+                    fill
+                    sizes="240px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              <div className="absolute left-[10%] top-[4%] z-30 size-24 overflow-hidden rounded-full border-4 border-background bg-secondary shadow-lg sm:size-32">
+                <ProductImage
+                  src="/assets/images/daily-face-cleanser.webp"
+                  alt="Daily face cleanser"
+                  fill
+                  sizes="128px"
+                  className="object-cover object-[center_60%]"
+                />
+              </div>
+              <p className="absolute right-[1%] top-[60%] z-30 rotate-3 bg-foreground px-3 py-1.5 font-display text-[10px] font-semibold uppercase tracking-[0.22em] text-primary-foreground">
+                3 steps
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured products */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
             The essentials. Nothing unnecessary.
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Five products. One simple routine.
+            Eight products. One simple routine.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
 
-      {/* Brand philosophy */}
       <section className="border-y border-border bg-secondary/30">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="relative aspect-4/3 overflow-hidden rounded-2xl">
@@ -141,9 +170,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Simple routine */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
+      <section className="mx-auto w-full max-w-7xl px-4 py-12 md:px-6">
+        <div className="mb-8 text-center">
           <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
             A simple routine
           </h2>
@@ -151,28 +179,30 @@ export default function HomePage() {
             Three steps. Morning and evening.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <ol className="grid grid-cols-1 md:grid-cols-3">
           {routineSteps.map((step) => (
-            <Link
+            <li
               key={step.num}
-              href={step.href}
-              className="group rounded-xl border border-border bg-card p-8 transition-all duration-300 hover:shadow-md"
+              className="py-6 md:px-6 md:first:pl-0 md:last:pr-0"
             >
-              <span className="font-display text-4xl font-bold text-muted-foreground/30">
-                {step.num}
-              </span>
-              <h3 className="mt-4 font-display text-xl font-semibold">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {step.description}
-              </p>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground transition-all group-hover:gap-2">
-                Learn more <ArrowRight className="h-3.5 w-3.5" />
-              </span>
-            </Link>
+              <Link href={step.href} className="group flex h-full flex-col">
+                <span className="font-display text-5xl font-bold leading-none tracking-tighter sm:text-6xl">
+                  {step.num}
+                </span>
+                <h3 className="mt-6 font-display text-2xl font-semibold tracking-tight">
+                  {step.title}
+                </h3>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
+                <span className="mt-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em]">
+                  {step.link}
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
     </div>
   );

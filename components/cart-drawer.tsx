@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { X, Plus, Minus, ShoppingBag, Trash2 } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
 import { formatKES } from '@/lib/products';
 import { Button } from '@/components/ui/button';
@@ -107,8 +107,9 @@ export function CartDrawer() {
                         </div>
                         <button
                           onClick={() => removeItem(item.productId)}
-                          className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                          className="flex shrink-0 items-center gap-1 text-xs text-red-700 transition-colors hover:text-foreground"
                         >
+                          <Trash2 className="h-3 w-3" />
                           Remove
                         </button>
                       </div>
