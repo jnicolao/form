@@ -11,12 +11,21 @@ import {
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // PickSpot's limit
-const IMAGE_TYPES: Record<string, string> = {
-  '.webp': 'image/webp',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.png': 'image/png',
-};
+
+// The type is read from the file's first bytes, not from its name: a picture
+// saved as .webp may really be a PNG.
+function pictureType(
+  bytes: Buffer,
+): { type: string; extension: string } | null {
+  const text = (from: number, to: number) =>
+    bytes.subarray(from, to).toString('latin1');
+  if (text(0, 4) === 'RIFF' && text(8, 12) === 'WEBP')
+    return { type: 'image/webp', extension: 'webp' };
+  if (text(1, 4) === 'PNG') return { type: 'image/png', extension: 'png' };
+  if (bytes[0] === 0xff && bytes[1] === 0xd8)
+    return { type: 'image/jpeg', extension: 'jpg' };
+  return null;
+}
 
 // Kept while this server instance is warm, in front of the database table.
 const known = new Map<string, string>();
@@ -25,18 +34,23 @@ const known = new Map<string, string>();
 // catalogue path such as /assets/images/x.webp. Reading the file needs no
 // setting and no request to the shop itself, so it works the same on a laptop
 // and when deployed (next.config.js ships these files with the order route).
-async function readPicture(imagePath: string): Promise<Blob> {
+async function readPicture(
+  imagePath: string,
+): Promise<{ picture: Blob; fileName: string }> {
   const file = path.join(PUBLIC_DIR, imagePath);
   if (!file.startsWith(PUBLIC_DIR + path.sep)) {
     throw new Error('outside the public folder');
   }
-  const type = IMAGE_TYPES[path.extname(file).toLowerCase()];
-  if (!type) throw new Error('not a picture type the shop sends');
   const bytes = await readFile(file);
+  const kind = pictureType(bytes);
+  if (!kind) throw new Error('not a PNG, JPEG or WebP picture');
   if (bytes.length > MAX_IMAGE_BYTES) {
     throw new Error(`${bytes.length} bytes is over PickSpot's 10 MB limit`);
   }
-  return new Blob([new Uint8Array(bytes)], { type });
+  return {
+    picture: new Blob([new Uint8Array(bytes)], { type: kind.type }),
+    fileName: `${path.parse(file).name}.${kind.extension}`,
+  };
 }
 
 // PickSpot shows a picture next to each item. A picture is uploaded once per
@@ -79,8 +93,8 @@ export async function getItemImageKeys(
   await Promise.all(
     missing.map(async (imagePath) => {
       try {
-        const picture = await readPicture(imagePath);
-        const key = await uploadItemImage(picture, path.basename(imagePath));
+        const { picture, fileName } = await readPicture(imagePath);
+        const key = await uploadItemImage(picture, fileName);
         known.set(`${account}|${imagePath}`, key);
         result.set(imagePath, key);
         // The key is already in use for this order; failing to save it only
