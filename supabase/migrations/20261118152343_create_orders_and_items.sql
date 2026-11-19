@@ -10,35 +10,35 @@ browser localStorage, which is lost when switching devices or clearing browser d
 
 ### orders
 - `id` (uuid, primary key)
-- `reference` (text, unique, not null) — the store order reference (e.g. FORM-XXXX)
-- `pickspot_order_id` (text, nullable) — the orderId returned by the PickSpot API
-- `pickspot_parcel_code` (text, nullable) — the parcel code from PickSpot (e.g. PS-KE-XXXX)
-- `checkout_method` (text, not null) — 'pickspot' or 'standard'
-- `status` (text, not null, default 'AWAITING_RECIPIENT') — current order status
-- `kind` (text, nullable) — 'PARCEL' or 'CLAIM' (PickSpot order kind)
-- `recipient_phone` (text, nullable) — customer WhatsApp number for PickSpot orders
-- `recipient_handle` (text, nullable) — customer PickSpot handle if matched
-- `recipient_email` (text, nullable) — customer email for standard checkout
-- `recipient_name` (text, nullable) — customer name for standard checkout
-- `subtotal_kes` (integer, not null) — product subtotal in KES
-- `delivery_fee_kes` (integer, nullable) — delivery fee in KES
-- `service_fee_kes` (integer, nullable) — PickSpot service fee in KES
-- `total_kes` (integer, nullable) — final total in KES
-- `claim_url` (text, nullable) — PickSpot claim/branch URL
-- `pickspot_response` (jsonb, nullable) — full PickSpot API response for debugging
+- `reference` (text, unique, not null) - the store order reference (e.g. FORM-XXXX)
+- `pickspot_order_id` (text, nullable) - the orderId returned by the PickSpot API
+- `pickspot_parcel_code` (text, nullable) - the parcel code from PickSpot (e.g. PS-KE-XXXX)
+- `checkout_method` (text, not null) - 'pickspot' or 'standard'
+- `status` (text, not null, default 'AWAITING_RECIPIENT') - current order status
+- `kind` (text, nullable) - 'PARCEL' or 'CLAIM' (PickSpot order kind)
+- `recipient_phone` (text, nullable) - customer WhatsApp number for PickSpot orders
+- `recipient_handle` (text, nullable) - customer PickSpot handle if matched
+- `recipient_email` (text, nullable) - customer email for standard checkout
+- `recipient_name` (text, nullable) - customer name for standard checkout
+- `subtotal_kes` (integer, not null) - product subtotal in KES
+- `delivery_fee_kes` (integer, nullable) - delivery fee in KES
+- `service_fee_kes` (integer, nullable) - PickSpot service fee in KES
+- `total_kes` (integer, nullable) - final total in KES
+- `claim_url` (text, nullable) - PickSpot claim/branch URL
+- `pickspot_response` (jsonb, nullable) - full PickSpot API response for debugging
 - `created_at` (timestamptz, default now())
 - `updated_at` (timestamptz, default now())
 
 ### order_items
 - `id` (uuid, primary key)
 - `order_id` (uuid, foreign key to orders.id ON DELETE CASCADE)
-- `product_id` (text, not null) — e.g. FORM-001
+- `product_id` (text, not null) - e.g. FORM-001
 - `product_name` (text, not null)
-- `product_subtitle` (text, nullable) — ingredient/size info
+- `product_subtitle` (text, nullable) - ingredient/size info
 - `product_size` (text, nullable)
 - `unit_price_kes` (integer, not null)
 - `quantity` (integer, not null)
-- `line_total_kes` (integer, not null) — unit_price * quantity
+- `line_total_kes` (integer, not null) - unit_price * quantity
 - `image_url` (text, nullable)
 - `created_at` (timestamptz, default now())
 
@@ -46,7 +46,7 @@ browser localStorage, which is lost when switching devices or clearing browser d
 - Both tables have RLS enabled.
 - Both tables grant CRUD to `anon` and `authenticated` (single-tenant, no sign-in).
 - All policies use `USING (true)` / `WITH CHECK (true)` because this is a demo store
-  with no user accounts — all data is intentionally public/shared.
+  with no user accounts - all data is intentionally public/shared.
 
 ## Notes
 1. `pickspot_response` stores the full API response as JSONB for audit/debugging.

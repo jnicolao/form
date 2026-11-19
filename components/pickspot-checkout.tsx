@@ -585,17 +585,17 @@ function PickspotSuccess({
           {[
             {
               icon: MessageCircle,
-              title: '01 — Open your order',
+              title: '01 - Open your order',
               desc: 'Tap your order request on WhatsApp.',
             },
             {
               icon: Smartphone,
-              title: '02 — Review & pay',
+              title: '02 - Review & pay',
               desc: 'Check your order and pay securely.',
             },
             {
               icon: MapPin,
-              title: '03 — Check it before you accept it',
+              title: '03 - Check it before you accept it',
               desc: 'Check your order at the door before sharing your secret code. Happy with it? Confirm delivery and the seller gets paid. Something wrong? Request a return and get your product payment refunded.',
             },
           ].map((step) => (

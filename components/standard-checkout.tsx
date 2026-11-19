@@ -121,7 +121,7 @@ export function StandardCheckout() {
       <div className="mt-4 flex items-start gap-3 rounded-lg border border-border bg-secondary/40 p-4">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
         <p className="text-sm text-muted-foreground">
-          Demo checkout — no payments will be processed.
+          Demo checkout - no payments will be processed.
         </p>
       </div>
       <form
@@ -321,7 +321,7 @@ export function StandardCheckout() {
               </label>
             </RadioGroup>
             <p className="mt-3 text-xs text-muted-foreground">
-              Demo only — payments are disabled.
+              Demo only - payments are disabled.
             </p>
           </section>
         </div>

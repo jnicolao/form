@@ -4,7 +4,7 @@
 ## What is added
 1. An index on `orders (recipient_phone, created_at)`. Before sending a new
    order request, the site checks how recently the same number was sent one.
-2. `pickspot_image_keys` — the key PickSpot returns for each product picture,
+2. `pickspot_image_keys` - the key PickSpot returns for each product picture,
    per PickSpot account, so a picture is uploaded once and reused.
    - `pickspot_account` is a short hash of the PickSpot address and API key.
      It identifies the account without storing the key.

@@ -8,12 +8,12 @@ PickSpot's `orderId` changes when a claim becomes a parcel. The shop's own
 `reference` never changes, so it is the key used here.
 
 ## What is added
-1. `orders.pickspot_updated_at` — PickSpot's own time for the state the row
+1. `orders.pickspot_updated_at` - PickSpot's own time for the state the row
    holds. An update older than this is ignored, so an order never moves
    backwards.
-2. `pickspot_webhook_deliveries` — one row per webhook delivery, keyed by
+2. `pickspot_webhook_deliveries` - one row per webhook delivery, keyed by
    PickSpot's delivery id. A delivery seen before changes nothing.
-3. `apply_pickspot_order(...)` — records the delivery and updates the order in
+3. `apply_pickspot_order(...)` - records the delivery and updates the order in
    one transaction, and says what happened:
    - `duplicate`          this delivery id was already handled
    - `unknown_reference`  no order with that reference

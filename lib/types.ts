@@ -112,7 +112,7 @@ export const ORDER_STATUS_LABELS: Record<PickspotOrderStatus, string> = {
   AWAITING_APPROVAL: 'Awaiting your approval',
   AWAITING_PAYMENT: 'Payment pending',
   PAYMENT_FAILED: 'Payment failed',
-  PAID: 'Paid — rider being requested',
+  PAID: 'Paid - rider being requested',
   SCHEDULED: 'Rider scheduled',
   DISPATCHED: 'Rider dispatched',
   IN_TRANSIT: 'On the way',
