@@ -35,10 +35,10 @@ export async function generateMetadata({
   const product = getProductBySlug((await params).slug);
   if (!product) return { title: 'Product not found | FORM.' };
   return {
-    title: `${product.name} — ${product.subtitle} | FORM.`,
+    title: `${product.name} - ${product.subtitle} | FORM.`,
     description: product.description,
     openGraph: {
-      title: `${product.name} — FORM.`,
+      title: `${product.name} - FORM.`,
       description: product.description,
       images: [{ url: product.image }],
     },
@@ -132,8 +132,8 @@ export default async function ProductPage({ params }: PageProps) {
               {product.ingredients}
             </p>
             <p className="mt-3 text-xs text-muted-foreground/70">
-              Illustrative ingredient list for demonstration. Not a clinically
-              tested formulation.
+              Ingredient list is indicative. Not a clinically tested
+              formulation.
             </p>
           </div>
         </div>
@@ -143,7 +143,7 @@ export default async function ProductPage({ params }: PageProps) {
           <h2 className="mb-8 font-display text-2xl font-bold tracking-tight">
             You might also like
           </h2>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

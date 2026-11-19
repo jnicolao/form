@@ -35,16 +35,13 @@ const footerSections = [
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-secondary/40">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-16 pb-6 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
           <div className="md:col-span-1">
             <FormLogo className="text-2xl" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Better skin. Less effort. Premium men&apos;s skincare and grooming
               essentials from Nairobi, Kenya.
-            </p>
-            <p className="mt-4 text-xs text-muted-foreground">
-              Illustrative brand and products for demonstration.
             </p>
           </div>
           {footerSections.map((section) => (
@@ -68,15 +65,9 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="mt-12 border-t border-border pt-8">
-          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} FORM. Men&apos;s Essentials. A
-              fictional brand for demonstration purposes.
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Powered by PickSpot checkout technology
-            </p>
-          </div>
+          <p className="text-xs text-muted-foreground">
+            &copy; {new Date().getFullYear()} FORM. Men&apos;s Essentials.
+          </p>
         </div>
       </div>
     </footer>

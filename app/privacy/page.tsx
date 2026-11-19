@@ -69,10 +69,6 @@ export default function PrivacyPage() {
             <p>For privacy questions, contact us at hello@form.example.</p>
           </div>
         </section>
-        <p className="border-t border-border pt-6 text-xs text-muted-foreground/70">
-          This is a demonstration store. This policy is provided for
-          illustration only.
-        </p>
       </div>
     </div>
   );

@@ -58,9 +58,8 @@ export default function TermsPage() {
           </h2>
           <div className="mt-3 space-y-3 text-sm leading-relaxed">
             <p>
-              Product descriptions and ingredient lists are illustrative for
-              this demonstration store and do not represent clinically tested
-              formulations.
+              Product descriptions and ingredient lists are indicative and do
+              not represent clinically tested formulations.
             </p>
           </div>
         </section>
@@ -74,10 +73,6 @@ export default function TermsPage() {
             </p>
           </div>
         </section>
-        <p className="border-t border-border pt-6 text-xs text-muted-foreground/70">
-          This is a demonstration store. These terms are provided for
-          illustration only.
-        </p>
       </div>
     </div>
   );

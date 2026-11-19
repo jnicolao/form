@@ -69,10 +69,6 @@ export default function ShippingPage() {
             </p>
           </div>
         </section>
-        <p className="border-t border-border pt-6 text-xs text-muted-foreground/70">
-          This is a demonstration store. No real orders are processed or
-          shipped.
-        </p>
       </div>
     </div>
   );
