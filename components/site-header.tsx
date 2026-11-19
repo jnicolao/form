@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { ShoppingBag, Menu, X } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
 import { FormLogo } from '@/components/brand-logos';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
@@ -51,10 +52,10 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-foreground',
+                  'text-sm font-medium transition-colors',
                   pathname === link.href
-                    ? 'text-foreground'
-                    : 'text-muted-foreground',
+                    ? 'text-[#7a6248]'
+                    : 'text-muted-foreground hover:text-foreground',
                 )}
               >
                 {link.label}
@@ -63,18 +64,29 @@ export function SiteHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <button
+          <Button
             onClick={openDrawer}
-            className="relative flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-secondary"
-            aria-label={`Shopping bag with ${itemCount} items`}
+            size="sm"
+            className="gap-2"
+            aria-label={
+              itemCount > 0
+                ? `Cart, ${itemCount} ${itemCount === 1 ? 'item' : 'items'}`
+                : 'Cart, empty'
+            }
           >
-            <ShoppingBag className="h-5 w-5" />
+            <ShoppingBag className="h-4 w-4" />
+            Cart
+            {/* The count appears once something is in the cart, and pops
+                again each time it changes (the key restarts the animation). */}
             {itemCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 items-center justify-center rounded-full bg-foreground px-1 text-[11px] font-semibold text-background animate-scale-in">
-                {itemCount}
+              <span
+                key={itemCount}
+                className="flex h-5 min-w-5 items-center justify-center rounded-full bg-background px-1.5 text-[11px] font-semibold text-foreground animate-scale-in"
+              >
+                {itemCount > 99 ? '99+' : itemCount}
               </span>
             )}
-          </button>
+          </Button>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-secondary md:hidden"
@@ -96,10 +108,10 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'block py-3 text-base font-medium transition-colors hover:text-foreground',
+                  'block py-3 text-base font-medium transition-colors',
                   pathname === link.href
-                    ? 'text-foreground'
-                    : 'text-muted-foreground',
+                    ? 'text-[#7a6248]'
+                    : 'text-muted-foreground hover:text-foreground',
                 )}
               >
                 {link.label}
