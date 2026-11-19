@@ -119,6 +119,69 @@ export const products: Product[] = [
       'Aqua (Water), Ethyl Ascorbic Acid (Vitamin C), Glycerin, Propylene Glycol, Ferulic Acid, Hyaluronic Acid, Panthenol, Allantoin, Carbomer, Triethanolamine, Phenoxyethanol, Ethylhexylglycerin.',
     parcelClass: 'SMALL',
   },
+  {
+    id: 'FORM-006',
+    slug: 'exfoliating-face-scrub',
+    name: 'Exfoliating Face Scrub',
+    subtitle: 'Lactic Acid 5%',
+    size: '75 g',
+    priceKES: 1350,
+    image: '/assets/images/exfoliating-face-scrub.webp',
+    description:
+      'A twice-a-week scrub that lifts away dead skin and buildup, leaving skin smoother and ready for a closer shave.',
+    benefits: [
+      'Helps remove dead skin and buildup',
+      'Smooths the look of rough texture',
+      'Preps skin for a closer shave',
+    ],
+    howToUse:
+      'Massage a small amount onto damp skin for 30 seconds, then rinse well. Use two or three times a week. Avoid the eye area.',
+    ingredients:
+      'Aqua (Water), Glycerin, Lactic Acid, Jojoba Esters, Kaolin, Cetearyl Alcohol, Cocamidopropyl Betaine, Panthenol, Allantoin, Xanthan Gum, Phenoxyethanol, Ethylhexylglycerin.',
+    parcelClass: 'MEDIUM',
+  },
+  {
+    id: 'FORM-007',
+    slug: 'soothing-post-shave-balm',
+    name: 'Soothing Post-Shave Balm',
+    subtitle: 'Aloe Vera + Allantoin',
+    size: '100 ml',
+    priceKES: 1350,
+    image: '/assets/images/post-shave-balm.webp',
+    description:
+      'A light, alcohol-free balm that calms skin after shaving and helps ease tightness and razor burn.',
+    benefits: [
+      'Calms skin after shaving',
+      'Helps ease tightness and razor burn',
+      'Alcohol-free and fast-absorbing',
+    ],
+    howToUse:
+      'After shaving, rinse with cool water, pat dry and smooth a small amount over the shaved area.',
+    ingredients:
+      'Aqua (Water), Aloe Barbadensis Leaf Juice, Glycerin, Caprylic/Capric Triglyceride, Allantoin, Panthenol, Bisabolol, Cetearyl Alcohol, Tocopherol, Carbomer, Phenoxyethanol, Ethylhexylglycerin.',
+    parcelClass: 'MEDIUM',
+  },
+  {
+    id: 'FORM-008',
+    slug: 'conditioning-beard-oil',
+    name: 'Conditioning Beard Oil',
+    subtitle: 'Jojoba + Argan',
+    size: '30 ml',
+    priceKES: 1450,
+    image: '/assets/images/beard-oil.webp',
+    description:
+      'A lightweight oil that softens beard hair and conditions the skin underneath, without a greasy finish.',
+    benefits: [
+      'Softens and conditions beard hair',
+      'Helps ease dryness and itch under the beard',
+      'Lightweight, non-greasy feel',
+    ],
+    howToUse:
+      'Warm three or four drops between your palms and work through a clean, dry beard down to the skin.',
+    ingredients:
+      'Simmondsia Chinensis (Jojoba) Seed Oil, Argania Spinosa (Argan) Kernel Oil, Vitis Vinifera (Grape) Seed Oil, Caprylic/Capric Triglyceride, Squalane, Tocopherol.',
+    parcelClass: 'SMALL',
+  },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
