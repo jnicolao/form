@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .tile { fill: #171717; }
+    .mark { fill: #f7f6f2; }
+    .dot { fill: #a8a39b; }
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #f7f6f2; }
+      .mark { fill: #171717; }
+      .dot { fill: #77736e; }
+    }
+  </style>
+  <rect class="tile" width="32" height="32" rx="7" />
+  <path class="mark" d="M8 8h12v4h-8v2h6v4h-6v6H8z" />
+  <circle class="dot" cx="22" cy="22" r="2" />
+</svg>
