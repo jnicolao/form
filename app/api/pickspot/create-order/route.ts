@@ -121,10 +121,7 @@ export async function POST(req: NextRequest) {
   }
 
   const siteUrl = getSiteUrl();
-  const imageKeys = await getItemImageKeys(
-    items.map((item) => item.image),
-    siteUrl,
-  );
+  const imageKeys = await getItemImageKeys(items.map((item) => item.image));
 
   const request: PickspotCreateOrderRequest = {
     reference,
