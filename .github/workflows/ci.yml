@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   check:
-    name: Lint, typecheck and format
+    name: Lint, typecheck, format, test and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -24,3 +24,6 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run format:check
+      - run: npm test
+      # Needs no secrets: the site builds without any settings.
+      - run: npm run build
