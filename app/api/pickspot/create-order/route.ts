@@ -144,9 +144,7 @@ export async function POST(req: NextRequest) {
     declaredItemCostKes: cartSubtotal(items),
     metadata: {
       platform: 'CUSTOM',
-      ...(siteUrl
-        ? { storeUrl: siteUrl, orderUrl: `${siteUrl}/order/${reference}` }
-        : {}),
+      ...(siteUrl ? { storeUrl: siteUrl } : {}),
     },
   };
 

@@ -8,11 +8,10 @@ import {
   useCallback,
   ReactNode,
 } from 'react';
-import type { CartItem, PickspotOrderStatus } from './types';
+import type { CartItem } from './types';
 import { getProductById } from './products';
 
 const STORAGE_KEY = 'form-cart';
-const ORDERS_KEY = 'form-orders';
 
 interface CartContextValue {
   items: CartItem[];
@@ -157,44 +156,4 @@ export function useCart() {
   const ctx = useContext(CartContext);
   if (!ctx) throw new Error('useCart must be used within CartProvider');
   return ctx;
-}
-
-export function storeOrder(order: {
-  orderId: string;
-  reference: string;
-  kind: 'PARCEL' | 'CLAIM';
-  status: PickspotOrderStatus;
-  items: CartItem[];
-  recipientPhone?: string;
-  recipientHandle?: string;
-  parcelCode?: string | null;
-  claimUrl?: string | null;
-}) {
-  try {
-    const existing = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
-    existing.unshift({ ...order, createdAt: new Date().toISOString() });
-    localStorage.setItem(ORDERS_KEY, JSON.stringify(existing.slice(0, 20)));
-  } catch {
-    /* ignore */
-  }
-}
-
-export function getStoredOrders() {
-  try {
-    return JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
-  } catch {
-    return [];
-  }
-}
-
-export function getStoredOrder(orderId: string) {
-  try {
-    const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
-    return orders.find(
-      (o: { orderId: string; reference?: string }) =>
-        o.orderId === orderId || o.reference === orderId,
-    );
-  } catch {
-    return null;
-  }
 }

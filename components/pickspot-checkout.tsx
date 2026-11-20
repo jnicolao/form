@@ -11,7 +11,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import { useCart, storeOrder } from '@/lib/cart-context';
+import { useCart } from '@/lib/cart-context';
 import { formatKES } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -80,16 +80,6 @@ export function PickspotCheckout() {
       };
     setOrder(data.order);
     setOrderRef(data.reference);
-    storeOrder({
-      orderId: data.order.orderId,
-      reference: data.reference,
-      kind: data.order.kind,
-      status: data.order.status,
-      items: orderItems,
-      recipientPhone: phone,
-      parcelCode: data.order.parcelCode,
-      claimUrl: data.claimUrl ?? null,
-    });
     return { ok: true };
   };
 
