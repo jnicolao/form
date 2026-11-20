@@ -61,7 +61,7 @@ export default function ShippingPage() {
             <p>
               Orders placed through PickSpot checkout are subject to
               PickSpot&apos;s delivery and buyer protection terms. You can track
-              your order from the order status page or within PickSpot.
+              your order in PickSpot.
             </p>
             <p>
               If you have an issue with a PickSpot order, contact us first and

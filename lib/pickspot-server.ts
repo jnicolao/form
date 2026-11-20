@@ -127,15 +127,6 @@ export async function createCheckoutOrder(
   return { order: orderIn(json), replayed };
 }
 
-// `id` may be PickSpot's orderId, a parcel code, a claim id or the shop's reference.
-export async function getOrder(id: string): Promise<PickspotOrder> {
-  const { json } = await request(
-    'GET',
-    `/integrations/checkout/orders/${encodeURIComponent(id)}`,
-  );
-  return orderIn(json);
-}
-
 // Uploads one item picture and returns the key to put in `items[].imageKeys`.
 export async function uploadItemImage(
   image: Blob,

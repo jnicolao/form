@@ -107,34 +107,6 @@ export interface PickspotOrderResponse {
   order: PickspotOrder;
 }
 
-export const ORDER_STATUS_LABELS: Record<PickspotOrderStatus, string> = {
-  AWAITING_RECIPIENT: 'Request sent',
-  AWAITING_APPROVAL: 'Awaiting your approval',
-  AWAITING_PAYMENT: 'Payment pending',
-  PAYMENT_FAILED: 'Payment failed',
-  PAID: 'Paid - rider being requested',
-  SCHEDULED: 'Rider scheduled',
-  DISPATCHED: 'Rider dispatched',
-  IN_TRANSIT: 'On the way',
-  DELIVERED: 'Delivered',
-  RETURNED: 'Returned',
-  CANCELLED: 'Cancelled',
-  REJECTED: 'Rejected',
-  EXPIRED: 'Expired',
-  UNKNOWN: 'Unknown',
-};
-
-export const ORDER_STATUS_STEPS: PickspotOrderStatus[] = [
-  'AWAITING_RECIPIENT',
-  'AWAITING_APPROVAL',
-  'AWAITING_PAYMENT',
-  'PAID',
-  'SCHEDULED',
-  'DISPATCHED',
-  'IN_TRANSIT',
-  'DELIVERED',
-];
-
 export interface StoredOrder {
   orderId: string;
   reference: string;
