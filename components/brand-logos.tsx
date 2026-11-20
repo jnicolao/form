@@ -27,6 +27,9 @@ export function PickSpotLogo({
       alt="PickSpot"
       width={2972}
       height={748}
+      // The logo is never shown wider than this, so the browser asks for a
+      // small copy instead of the full 2972px file.
+      sizes="96px"
       className={cn(
         'h-5 w-auto select-none',
         dark && 'brightness-0 invert',
