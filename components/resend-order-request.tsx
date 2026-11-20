@@ -26,19 +26,17 @@ export function ResendOrderRequest({
   const [phoneError, setPhoneError] = useState('');
 
   // Counts down after each order request (a new request has a new order number).
+  // It reads the clock on every tick instead of counting ticks, so it is still
+  // right after the page was in the background, as it is on a phone while the
+  // shopper is in WhatsApp.
   useEffect(() => {
-    const timer = setInterval(
-      () => setSecondsLeft((s) => Math.max(s - 1, 0)),
-      1000,
-    );
-    const stop = setTimeout(
-      () => clearInterval(timer),
-      RESEND_DELAY_SECONDS * 1000,
-    );
-    return () => {
-      clearInterval(timer);
-      clearTimeout(stop);
-    };
+    const deadline = Date.now() + RESEND_DELAY_SECONDS * 1000;
+    const timer = setInterval(() => {
+      const left = Math.max(Math.ceil((deadline - Date.now()) / 1000), 0);
+      setSecondsLeft(left);
+      if (left === 0) clearInterval(timer);
+    }, 1000);
+    return () => clearInterval(timer);
   }, [reference]);
 
   const send = async (target: string) => {
@@ -160,10 +158,10 @@ export function ResendOrderRequest({
               type="button"
               onClick={startEditing}
               disabled={sending}
-              className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline-offset-4 transition-colors hover:underline disabled:opacity-50"
+              className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline-offset-4 transition-colors hover:text-foreground/80  disabled:opacity-50"
             >
-              <Pencil className="h-3.5 w-3.5" />
-              Wrong number? Change it
+              <Pencil className="h-3.5 w-3.5" fill="currentColor" />
+              Wrong number?<span className="underline">Change it</span>
             </button>
           </div>
           <Button
