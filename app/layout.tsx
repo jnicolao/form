@@ -33,14 +33,14 @@ const previewImage = {
 export const metadata: Metadata = {
   // Social preview images need the site's real address; without one Next.js falls back to localhost.
   ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
-  title: 'FORM. \u2014 Men\u2019s Essentials | Better skin. Less effort.',
+  title: 'FORM. Men\u2019s Essentials | Better skin. Less effort.',
   description:
     'Skincare that works hard, so you don\u2019t have to. Straightforward essentials for your everyday routine. Premium men\u2019s grooming from Nairobi, Kenya.',
   applicationName: 'FORM.',
   // Each page names its own address as the one to index.
   alternates: { canonical: './' },
   openGraph: {
-    title: 'FORM. \u2014 Men\u2019s Essentials',
+    title: 'FORM. Men\u2019s Essentials',
     description:
       'Better skin. Less effort. Premium men\u2019s skincare and grooming essentials.',
     type: 'website',
