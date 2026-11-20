@@ -14,6 +14,7 @@ import {
 const contactSchema = z.object({
   email: z.string().trim().email().max(254),
   firstName: z.string().trim().min(1).max(100),
+  middleName: z.string().trim().max(100).optional(),
   lastName: z.string().trim().min(1).max(100),
 });
 
@@ -34,7 +35,13 @@ export async function POST(req: NextRequest) {
     checkoutMethod: 'standard',
     status: 'DEMO_RECEIVED',
     recipientEmail: contact.data.email,
-    recipientName: `${contact.data.firstName} ${contact.data.lastName}`,
+    recipientName: [
+      contact.data.firstName,
+      contact.data.middleName,
+      contact.data.lastName,
+    ]
+      .filter(Boolean)
+      .join(' '),
     subtotalKes: subtotal,
     deliveryFeeKes: STANDARD_DELIVERY_FEE_KES,
     serviceFeeKes: STANDARD_PROCESSING_FEE_KES,

@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { ShieldCheck, Loader2, Info, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, Loader2, Info, ChevronDown } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
 import {
   formatKES,
@@ -25,9 +25,10 @@ const checkoutSchema = z.object({
   email: z.string().email('Enter a valid email address'),
   phone: z.string().min(10, 'Enter a valid phone number'),
   firstName: z.string().min(1, 'Required'),
+  middleName: z.string().optional(),
   lastName: z.string().min(1, 'Required'),
   county: z.string().min(1, 'Required'),
-  city: z.string().min(1, 'Required'),
+  constituency: z.string().min(1, 'Required'),
   streetAddress: z.string().min(1, 'Required'),
   building: z.string().optional(),
   landmark: z.string().optional(),
@@ -36,10 +37,24 @@ const checkoutSchema = z.object({
 });
 type CheckoutForm = z.infer<typeof checkoutSchema>;
 
+function StepHeading({ n, children }: { n: number; children: ReactNode }) {
+  return (
+    <h2 className="flex items-center gap-3 font-display text-base font-semibold">
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-xs font-medium text-muted-foreground">
+        {n}
+      </span>
+      {children}
+    </h2>
+  );
+}
+
 export function StandardCheckout() {
   const { items, subtotal, clearCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  const [counties, setCounties] = useState<string[]>([]);
+  const [countiesError, setCountiesError] = useState(false);
+  const [countyAttempt, setCountyAttempt] = useState(0);
   const {
     register,
     handleSubmit,
@@ -47,10 +62,27 @@ export function StandardCheckout() {
     control,
   } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
-    defaultValues: { paymentMethod: 'mpesa' },
+    defaultValues: { paymentMethod: 'mpesa', county: '' },
   });
   const paymentMethod = useWatch({ control, name: 'paymentMethod' });
   const total = subtotal + DELIVERY_FEE + PROCESSING_FEE;
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch('/api/counties', { signal: controller.signal })
+      .then(async (res) => {
+        if (!res.ok) throw new Error('counties');
+        const data = (await res.json()) as { counties?: string[] };
+        if (!data.counties?.length) throw new Error('counties');
+        setCounties(data.counties);
+        setCountiesError(false);
+      })
+      .catch((err: unknown) => {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+        setCountiesError(true);
+      });
+    return () => controller.abort();
+  }, [countyAttempt]);
 
   if (orderComplete) {
     return (
@@ -92,6 +124,7 @@ export function StandardCheckout() {
       body: JSON.stringify({
         email: data.email,
         firstName: data.firstName,
+        middleName: data.middleName,
         lastName: data.lastName,
         items: items.map((i) => ({
           productId: i.productId,
@@ -112,13 +145,15 @@ export function StandardCheckout() {
         href="/checkout"
         className="text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
-        <ArrowLeft className="mr-1 inline h-4 w-4" />
-        Choose another checkout method
+        &larr; Choose another checkout method
       </Link>
-      <h1 className="mt-4 font-display text-3xl font-bold tracking-tight">
-        Secure checkout
+      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+        Standard checkout
+      </p>
+      <h1 className="mt-3 font-display text-3xl font-bold tracking-tight text-balance sm:text-4xl">
+        Fill in your details
       </h1>
-      <div className="mt-4 flex items-start gap-3 rounded-lg border border-border bg-secondary/40 p-4">
+      <div className="mt-6 flex items-start gap-3 rounded-lg border border-border bg-secondary/40 p-4">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
         <p className="text-sm text-muted-foreground">
           Demo checkout - no payments will be processed.
@@ -126,13 +161,11 @@ export function StandardCheckout() {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3"
+        className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2"
       >
-        <div className="space-y-8 lg:col-span-2">
+        <div className="space-y-8">
           <section className="rounded-xl border border-border bg-card p-6">
-            <h2 className="font-display text-base font-semibold">
-              Contact details
-            </h2>
+            <StepHeading n={1}>Contact details</StepHeading>
             <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="email">Email</Label>
@@ -165,9 +198,7 @@ export function StandardCheckout() {
             </div>
           </section>
           <section className="rounded-xl border border-border bg-card p-6">
-            <h2 className="font-display text-base font-semibold">
-              Delivery address
-            </h2>
+            <StepHeading n={2}>Delivery address</StepHeading>
             <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="firstName">First name</Label>
@@ -181,6 +212,14 @@ export function StandardCheckout() {
                     {errors.firstName.message}
                   </p>
                 )}
+              </div>
+              <div>
+                <Label htmlFor="middleName">Middle name</Label>
+                <Input
+                  id="middleName"
+                  {...register('middleName')}
+                  className="mt-1.5"
+                />
               </div>
               <div>
                 <Label htmlFor="lastName">Last name</Label>
@@ -197,12 +236,37 @@ export function StandardCheckout() {
               </div>
               <div>
                 <Label htmlFor="county">County</Label>
-                <Input
-                  id="county"
-                  {...register('county')}
-                  className="mt-1.5"
-                  placeholder="e.g. Nairobi"
-                />
+                <div className="relative mt-1.5">
+                  <select
+                    id="county"
+                    {...register('county')}
+                    disabled={counties.length === 0}
+                    className="flex h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 pr-9 text-sm ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <option value="" disabled>
+                      {counties.length === 0
+                        ? countiesError
+                          ? 'Counties unavailable'
+                          : 'Loading counties…'
+                        : 'Select a county'}
+                    </option>
+                    {counties.map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                </div>
+                {countiesError && (
+                  <button
+                    type="button"
+                    onClick={() => setCountyAttempt((n) => n + 1)}
+                    className="mt-1 text-xs text-muted-foreground underline-offset-4 hover:underline"
+                  >
+                    Couldn&apos;t load counties. Try again.
+                  </button>
+                )}
                 {errors.county && (
                   <p className="mt-1 text-xs text-destructive">
                     {errors.county.message}
@@ -210,20 +274,20 @@ export function StandardCheckout() {
                 )}
               </div>
               <div>
-                <Label htmlFor="city">City</Label>
+                <Label htmlFor="constituency">Constituency</Label>
                 <Input
-                  id="city"
-                  {...register('city')}
+                  id="constituency"
+                  {...register('constituency')}
                   className="mt-1.5"
                   placeholder="e.g. Westlands"
                 />
-                {errors.city && (
+                {errors.constituency && (
                   <p className="mt-1 text-xs text-destructive">
-                    {errors.city.message}
+                    {errors.constituency.message}
                   </p>
                 )}
               </div>
-              <div className="sm:col-span-2">
+              <div>
                 <Label htmlFor="streetAddress">Street address</Label>
                 <Input
                   id="streetAddress"
@@ -264,10 +328,7 @@ export function StandardCheckout() {
                 />
               </div>
             </div>
-          </section>
-          <section className="rounded-xl border border-border bg-card p-6">
-            <h2 className="font-display text-base font-semibold">Delivery</h2>
-            <div className="mt-4 flex items-center justify-between rounded-lg border border-border p-4">
+            <div className="mt-6 flex items-center justify-between gap-4 border-t border-border pt-5">
               <div>
                 <p className="text-sm font-medium">Standard delivery</p>
                 <p className="text-xs text-muted-foreground">
@@ -281,15 +342,15 @@ export function StandardCheckout() {
             </p>
           </section>
           <section className="rounded-xl border border-border bg-card p-6">
-            <h2 className="font-display text-base font-semibold">Payment</h2>
+            <StepHeading n={3}>Payment</StepHeading>
             <RadioGroup
               defaultValue="mpesa"
-              className="mt-4 space-y-3"
+              className="mt-4 flex flex-row gap-3"
               {...register('paymentMethod')}
             >
               <label
                 className={cn(
-                  'flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors',
+                  'flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors',
                   paymentMethod === 'mpesa'
                     ? 'border-foreground bg-secondary/30'
                     : 'border-border',
@@ -305,7 +366,7 @@ export function StandardCheckout() {
               </label>
               <label
                 className={cn(
-                  'flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors',
+                  'flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors',
                   paymentMethod === 'card'
                     ? 'border-foreground bg-secondary/30'
                     : 'border-border',
@@ -345,7 +406,7 @@ export function StandardCheckout() {
                       {item.name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Qty {item.quantity}
+                      {item.size} · Qty {item.quantity}
                     </p>
                   </div>
                   <p className="self-center text-sm font-medium">
@@ -377,7 +438,7 @@ export function StandardCheckout() {
             <Button
               type="submit"
               size="lg"
-              className="mt-6 w-full"
+              className="mt-6 h-12 w-full"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
@@ -386,7 +447,7 @@ export function StandardCheckout() {
                   Processing…
                 </>
               ) : (
-                'Continue'
+                'Complete checkout'
               )}
             </Button>
           </div>
