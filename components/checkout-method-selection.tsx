@@ -74,7 +74,7 @@ export function CheckoutMethodSelection() {
         <section className="group relative flex flex-col rounded-2xl border border-foreground bg-foreground p-7 text-background transition-shadow duration-200 hover:shadow-xl sm:p-8">
           <div className="flex h-7 items-center justify-between gap-4">
             <PickSpotLogo dark className="h-6" />
-            <span className="rounded-full bg-[#475663] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]">
+            <span className="rounded-full bg-green-700 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]">
               Recommended
             </span>
           </div>
